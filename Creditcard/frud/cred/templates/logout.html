@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout - ShieldGuard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', 'Consolas', monospace;
+            background: #0a1621;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle animated background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(0, 255, 170, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(0, 255, 170, 0.03) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .logout-container {
+            background: rgba(15, 30, 45, 0.95);
+            border: 3px solid #00ffaa;
+            border-radius: 8px;
+            padding: 80px 70px;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 255, 170, 0.2);
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 52px;
+            font-weight: bold;
+            color: #00ffaa;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(0, 255, 170, 0.6);
+        }
+
+        .project-subtitle {
+            color: #b0b0b0;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 50px;
+        }
+
+        .checkmark-wrapper {
+            margin: 50px 0;
+        }
+
+        .checkmark-circle {
+            width: 140px;
+            height: 140px;
+            border: 4px solid #00ffaa;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: scaleIn 0.5s ease-out;
+            box-shadow: 0 0 40px rgba(0, 255, 170, 0.4),
+                        inset 0 0 30px rgba(0, 255, 170, 0.1);
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .checkmark {
+            font-size: 70px;
+            color: #00ffaa;
+            animation: checkmarkPop 0.4s ease-out 0.5s both;
+        }
+
+        @keyframes checkmarkPop {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.3);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            color: #00ffaa;
+            font-size: 48px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: bold;
+        }
+
+        .logout-message {
+            font-size: 18px;
+            color: #c0c0c0;
+            line-height: 1.8;
+            margin-bottom: 50px;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .session-info {
+            background: rgba(0, 255, 170, 0.05);
+            border: 2px solid rgba(0, 255, 170, 0.3);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 255, 170, 0.15);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #b0b0b0;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .info-value {
+            color: #00ffaa;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 255, 170, 0.15);
+            border: 1px solid #00ffaa;
+            padding: 12px 25px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #00ffaa;
+            margin: 30px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .security-badge::before {
+            content: '✓';
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 50px;
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #00ffaa;
+            color: #0a1621;
+        }
+
+        .btn-primary:hover {
+            background: #00dd88;
+            box-shadow: 0 0 30px rgba(0, 255, 170, 0.6);
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #00ffaa;
+            border: 2px solid #00ffaa;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 170, 0.1);
+            box-shadow: 0 0 25px rgba(0, 255, 170, 0.3);
+            transform: translateY(-3px);
+        }
+
+        footer {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 255, 170, 0.2);
+            color: #808080;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        @media (max-width: 768px) {
+            .logout-container {
+                padding: 60px 40px;
+            }
+
+            .logo {
+                font-size: 40px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .checkmark-circle {
+                width: 110px;
+                height: 110px;
+            }
+
+            .checkmark {
+                font-size: 55px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <div class="logo">SHIELDGUARD</div>
+        <p class="project-subtitle">Credit Card Fraud Detection</p>
+        
+        <div class="checkmark-wrapper">
+            <div class="checkmark-circle">
+                <div class="checkmark">✓</div>
+            </div>
+        </div>
+
+        <h1>Logged Out Successfully</h1>
+        
+        <p class="logout-message">
+            You have been securely logged out of the ShieldGuard system. 
+            All your session data has been cleared and your account is protected. 
+            Thank you for using our AI-powered fraud detection platform.
+        </p>
+
+        <div class="session-info">
+            <div class="info-row">
+                <span class="info-label">Session Duration</span>
+                <span class="info-value">2 hours 34 minutes</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Transactions Analyzed</span>
+                <span class="info-value">1,847</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Fraud Cases Detected</span>
+                <span class="info-value">12</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Last Activity</span>
+                <span class="info-value">Machine Learning Dashboard</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Security Status</span>
+                <span class="info-value">All Systems Secure</span>
+            </div>
+        </div>
+
+        <div class="security-badge">
+            Session Terminated Securely
+        </div>
+
+        <div class="button-group">
+            <a href="index.html" class="btn btn-primary">START FREE TRIAL</a>
+            <a href="login.html" class="btn btn-secondary">LOGIN AGAIN</a>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 ShieldGuard - Credit Card Fraud Detection System</p>
+            <p>AI-powered real-time detection with military-grade security</p>
+        </footer>
+    </div>
+</body>
+</html>

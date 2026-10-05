@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ShieldGuard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', 'Consolas', monospace;
+            background: #0a1621;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background effect */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 40%, rgba(0, 255, 170, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(0, 255, 170, 0.05) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .login-container {
+            background: rgba(15, 30, 45, 0.95);
+            border: 3px solid #00ffaa;
+            border-radius: 8px;
+            padding: 60px 50px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 25px 60px rgba(0, 255, 170, 0.2);
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            color: #00ffaa;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(0, 255, 170, 0.6);
+        }
+
+        .tagline {
+            color: #b0b0b0;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        h1 {
+            color: #00ffaa;
+            font-size: 32px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #b0b0b0;
+            font-size: 15px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #b0b0b0;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            background: rgba(10, 22, 33, 0.8);
+            border: 2px solid rgba(0, 255, 170, 0.3);
+            color: #e0e0e0;
+            padding: 15px 18px;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #00ffaa;
+            box-shadow: 0 0 20px rgba(0, 255, 170, 0.3);
+            background: rgba(10, 22, 33, 0.95);
+        }
+
+        input::placeholder {
+            color: #6a6a6a;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 13px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #b0b0b0;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #00ffaa;
+        }
+
+        .forgot-password {
+            color: #00ffaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #00dd88;
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: #00ffaa;
+            color: #0a1621;
+            padding: 16px;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 20px;
+        }
+
+        .login-btn:hover {
+            background: #00dd88;
+            box-shadow: 0 0 30px rgba(0, 255, 170, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: rgba(0, 255, 170, 0.3);
+        }
+
+        .divider::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: rgba(0, 255, 170, 0.3);
+        }
+
+        .divider span {
+            color: #808080;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .signup-link {
+            text-align: center;
+            color: #b0b0b0;
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: #00ffaa;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link a:hover {
+            color: #00dd88;
+            text-decoration: underline;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(0, 255, 170, 0.05);
+            border: 1px solid rgba(0, 255, 170, 0.3);
+            border-radius: 4px;
+            font-size: 13px;
+            color: #00ffaa;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .security-badge::before {
+            content: '🔒';
+            font-size: 18px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(0, 255, 170, 0.2);
+            color: #808080;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 50px 35px;
+            }
+
+            .logo {
+                font-size: 38px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .remember-forgot {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo">SHIELDGUARD</div>
+            <p class="tagline">Credit Card Fraud Detection</p>
+        </div>
+
+        <h1>Welcome Back</h1>
+        <p class="subtitle">
+            Login to access your fraud detection dashboard
+        </p>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="your@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <div class="remember-forgot">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember">
+                    <span>Remember me</span>
+                </label>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+
+            <div class="security-badge">
+                256-bit Encrypted Connection
+            </div>
+        </form>
+
+        <div class="divider">
+            <span>or</span>
+        </div>
+
+        <p class="signup-link">
+            Don't have an account? <a href="signup.html">Sign Up</a>
+        </p>
+
+        <footer>
+            <p>&copy; 2024 ShieldGuard - Credit Card Fraud Detection System</p>
+            <p>Your security is our priority</p>
+        </footer>
+    </div>
+
+    <script>
+        // Form submission handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Basic validation (you would connect this to your backend)
+            if (email && password) {
+                // Simulate login process
+                alert('Login functionality would be connected to backend authentication here.');
+                // In production: window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>
